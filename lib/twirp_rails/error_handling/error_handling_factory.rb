@@ -16,8 +16,8 @@ module TwirpRails
       end
       # rubocop:enable Style/MethodMissingSuper
 
-      def respond_to_missing?(method)
-        handler.respond_to?(method)
+      def respond_to_missing?(method, include_all = false)
+        handler.respond_to?(method, include_all)
       end
     end
 
@@ -50,8 +50,8 @@ module TwirpRails
       end
       # rubocop:enable Style/MethodMissingSuper
 
-      def respond_to_missing?(method)
-        handler.respond_to?(method)
+      def respond_to_missing?(method, include_all = false)
+        handler.respond_to?(method, include_all)
       end
     end
 

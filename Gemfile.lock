@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    twirp_rails (0.4.4)
+    twirp_rails (0.4.5)
       railties (~> 6.0)
       twirp (~> 1)
 
@@ -38,7 +38,7 @@ GEM
     generator_spec (0.9.4)
       activesupport (>= 3.0.0)
       railties (>= 3.0.0)
-    google-protobuf (3.11.4-universal-darwin)
+    google-protobuf (3.12.0-universal-darwin)
     i18n (1.8.2)
       concurrent-ruby (~> 1.0)
     loofah (2.4.0)
@@ -91,8 +91,8 @@ GEM
     rspec-support (3.9.2)
     thor (1.0.1)
     thread_safe (0.3.6)
-    twirp (1.4.1)
-      faraday (~> 0)
+    twirp (1.5.0)
+      faraday (< 2)
       google-protobuf (~> 3.0, >= 3.0.0)
     tzinfo (1.2.6)
       thread_safe (~> 0.1)
