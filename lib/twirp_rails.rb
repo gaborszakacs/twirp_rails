@@ -123,6 +123,17 @@ module TwirpRails
     Time.zone.at seconds
   end
 
+  # Utility for converting a Ruby Time instance to a
+  # Google::Protobuf::Timestamp.
+  #
+  # @param time [Time] The Time to be converted.
+  #
+  # @return [Google::Protobuf::Timestamp] The converted
+  #   Google::Protobuf::Timestamp.
+  def self.time_to_timestamp(time)
+    Google::Protobuf::Timestamp.new(seconds: time.to_i, nanos: time.nsec)
+  end
+
   def self.client(klass, url)
     client = klass.new(url)
 
