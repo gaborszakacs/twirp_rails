@@ -3,7 +3,7 @@ class ProtocAdapter
 
   attr_reader :twirp_plugin_path, :swagger_plugin_path, :protoc_path
 
-  def initialize(src_path, dst_path, swagger_out_path: nil)
+  def initialize(src_path, dst_path, swagger_out_path)
     @src_path = src_path
     @dst_path = dst_path
     @swagger_out_path = swagger_out_path
@@ -28,17 +28,8 @@ class ProtocAdapter
     end
   end
 
-  def cmd(files, gen_swagger: false)
-    flags = "--proto_path=#{src_path} " \
-            "--ruby_out=#{dst_path} --twirp_ruby_out=#{dst_path} " \
-            "--plugin=#{twirp_plugin_path}"
-
-    if gen_swagger
-      flags += " --plugin=#{swagger_plugin_path}" \
-               " --twirp_swagger_out=#{swagger_out_path}"
-    end
-
-    "#{protoc_path} #{flags} #{files}"
+  def cmd(files, gen_swagger)
+    "#{protoc_path} #{flags(gen_swagger)} #{files}"
   end
 
   def check_requirements(check_swagger: false)
@@ -61,5 +52,21 @@ class ProtocAdapter
         or set SWAGGER_PLUGIN_PATH environment variable to right location.
       TEXT
     end
+  end
+
+  private
+
+  def flags(gen_swagger)
+    [].tap do |flags|
+      flags << "--proto_path=#{src_path}"
+      flags << "--ruby_out=#{dst_path}"
+      flags << "--twirp_ruby_out=#{dst_path}"
+      flags << "--plugin=#{twirp_plugin_path}"
+
+      if gen_swagger
+        flags << "--plugin=#{swagger_plugin_path}"
+        flags << "--twirp_swagger_out=#{swagger_out_path}"
+      end
+    end.join(' ')
   end
 end

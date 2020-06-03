@@ -3,7 +3,7 @@ require 'rails/generators'
 class TwirpGenerator < Rails::Generators::NamedBase
   source_root File.expand_path('templates', __dir__)
 
-  class_option :skip_swagger, type: :boolean, default: false
+  class_option :gen_swagger, type: :boolean, default: false
   class_option :swagger_out, type: :string, default: nil
 
   def smart_detect_proto_file_name
@@ -67,9 +67,9 @@ class TwirpGenerator < Rails::Generators::NamedBase
       proto_files.each do |file|
         gen_swagger = gen_swagger? && file =~ %r{/#{file_name}\.proto$}
 
-        FileUtils.mkdir_p swagger_out_path if gen_swagger
+        FileUtils.mkdir_p cfg.swagger_output_path if gen_swagger
 
-        cmd = protoc.cmd(file, gen_swagger: gen_swagger)
+        cmd = protoc.cmd(file, gen_swagger)
 
         protoc_files_count += 1
         swagger_files_count += gen_swagger ? 1 : 0
@@ -188,11 +188,7 @@ class TwirpGenerator < Rails::Generators::NamedBase
   end
 
   def gen_swagger?
-    !options[:skip_swagger] && cfg.swagger_output_path
-  end
-
-  def swagger_out_path
-    options[:swagger_out] || cfg.swagger_output_path
+    options[:gen_swagger] && cfg.swagger_output_path.present?
   end
 
   def abort(msg)
@@ -200,6 +196,6 @@ class TwirpGenerator < Rails::Generators::NamedBase
   end
 
   def protoc
-    @protoc ||= ProtocAdapter.new(src_path, dst_path, swagger_out_path: swagger_out_path)
+    @protoc ||= ProtocAdapter.new(src_path, dst_path, cfg.swagger_output_path)
   end
 end
