@@ -3,7 +3,7 @@ class ProtocAdapter
 
   attr_reader :twirp_plugin_path, :swagger_plugin_path, :protoc_path
 
-  def initialize(src_path, dst_path, swagger_out_path)
+  def initialize(src_path, dst_path, swagger_out_path = nil)
     @src_path = src_path
     @dst_path = dst_path
     @swagger_out_path = swagger_out_path

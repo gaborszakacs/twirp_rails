@@ -31,7 +31,7 @@ module Twirp
         proto_files = Dir.glob protos_mask
 
         proto_files.each do |file|
-          cmd = protoc.cmd(file)
+          cmd = protoc.cmd(file, false)
 
           `#{cmd}`
 
