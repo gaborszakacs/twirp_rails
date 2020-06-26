@@ -160,7 +160,7 @@ This feature allow to use ruby style exception handling flow in ruby code.
 
 Create class to describe translate error rules
 ```ruby
-  class ErrorTranslator < TwirpRails::ErrorHandling::Base
+  class ApplicationErrorTranslator < TwirpRails::ErrorHandling::Base
     # rules to translate exception raised by handler to twirp
     translate_exception ArgumentError, with: :invalid_argument
     translate_exception ActiveRecord::NotFound do |exception, handler|
@@ -177,9 +177,9 @@ Create class to describe translate error rules
 
 And configure TwirpRails to use it:
 ```ruby
-# config/initializers/twirp_ruby.rb
+# config/initializers/twirp_rails.rb
 # ...
-  config.twirp_exception_translator_class = 'ErrorTranslator' 
+  config.twirp_exception_translator_class = 'ApplicationErrorTranslator' 
 # ... 
 ```
 
