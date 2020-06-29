@@ -36,7 +36,7 @@ TwirpRails.configure do |config|
   #   translate_exception Mongoid::Errors::DocumentNotFound, with: :not_found
   #   translate_error :not_found, with: Mongoid::Errors::DocumentNotFound
   # end
-  # config.twirp_exception_translator_class = 'SampleTranslator'
+  # config.twirp_exception_translator_class = 'ApplicationErrorTranslator'
   # default:
   # config.twirp_exception_translator_class = nil
 end
