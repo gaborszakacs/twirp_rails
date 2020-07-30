@@ -12,7 +12,7 @@ module TwirpRails
       def method_missing(method, *args)
         handler.public_send method, *args
       rescue => e
-        raise e if ENV['RAILS_ENV'] == 'development' || ENV['RAILS_ENV'] == 'test'
+        raise e if ENV['RAISE_TWIRP_ERRORS'].present?
 
         translator_class.exception_to_twirp(e, handler)
       end
