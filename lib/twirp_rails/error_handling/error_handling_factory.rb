@@ -12,6 +12,8 @@ module TwirpRails
       def method_missing(method, *args)
         handler.public_send method, *args
       rescue => e
+        raise e if ENV['RAILS_ENV'] == 'development' || ENV['RAILS_ENV'] == 'test'
+
         translator_class.exception_to_twirp(e, handler)
       end
       # rubocop:enable Style/MethodMissingSuper
