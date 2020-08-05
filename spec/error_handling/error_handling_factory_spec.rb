@@ -3,8 +3,8 @@ require 'twirp_rails'
 
 RSpec.describe TwirpRails::ErrorHandlingFactory do
   class ErrorHandlingFactoryTest < TwirpRails::ErrorHandling::Base
-    translate_exception ArgumentError, with: :invalid_argument
-    translate_error :invalid_argument, with: ArgumentError
+    translate_exception ZeroDivisionError, with: :permission_denied
+    translate_error :permission_denied, with: ZeroDivisionError
   end
 
   class HandlerSample
@@ -13,7 +13,7 @@ RSpec.describe TwirpRails::ErrorHandlingFactory do
     end
 
     def fail(_req, _env)
-      raise ArgumentError, 'error'
+      raise ZeroDivisionError, 'error'
     end
   end
 
@@ -23,7 +23,7 @@ RSpec.describe TwirpRails::ErrorHandlingFactory do
     end
 
     def fail(_arg)
-      Twirp::ClientResp.new(nil, Twirp::Error.invalid_argument('error'))
+      Twirp::ClientResp.new(nil, Twirp::Error.permission_denied('error'))
     end
   end
 
@@ -43,7 +43,7 @@ RSpec.describe TwirpRails::ErrorHandlingFactory do
 
       w_handler_fail = w_handler.fail(nil, nil)
       expect(w_handler_fail).to be_is_a(::Twirp::Error)
-      expect(w_handler_fail.code).to eq(:invalid_argument)
+      expect(w_handler_fail.code).to eq(:permission_denied)
       expect(w_handler_fail.msg).to eq('error')
 
       expect(w_client.success({}).error).to be_nil
@@ -55,7 +55,7 @@ RSpec.describe TwirpRails::ErrorHandlingFactory do
       expect(w_client.fail({}).error).to be_present
       expect(w_client.fail({}).data).to be_nil
 
-      expect { w_client.fail!({}) }.to raise_exception(ArgumentError)
+      expect { w_client.fail!({}) }.to raise_exception(ZeroDivisionError)
     end
   end
 
@@ -73,7 +73,7 @@ RSpec.describe TwirpRails::ErrorHandlingFactory do
     it do
       expect(w_handler.success(nil, nil)).to eq({})
 
-      expect { w_handler.fail(nil, nil) }.to raise_exception(ArgumentError)
+      expect { w_handler.fail(nil, nil) }.to raise_exception(ZeroDivisionError)
 
       expect(w_client.success({}).error).to be_nil
       expect(w_client.success({}).data).to eq({})
