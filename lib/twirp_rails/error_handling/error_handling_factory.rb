@@ -12,7 +12,13 @@ module TwirpRails
       def method_missing(method, *args)
         handler.public_send method, *args
       rescue => e
-        raise e if ENV['RAISE_TWIRP_ERRORS'].present?
+        if ENV['RAISE_TWIRP_ERRORS'].present?
+          raise e
+        else
+          Rails.logger.warn("Muted error: #{e.message}")
+          Rails.logger.warn("Muted error: #{e.full_message}")
+          Rails.logger.warn('Enable raise with RAISE_TWIRP_ERRORS env variable')
+        end
 
         translator_class.exception_to_twirp(e, handler)
       end
