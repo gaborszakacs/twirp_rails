@@ -31,7 +31,7 @@ module TwirpRails
 
       def raise_on_error(twirp_result)
         if twirp_result.error
-          exception = translator_class.twirp_to_exception(twirp_result.error)
+          exception = translator_class.twirp_to_exception(twirp_result.error, client)
           raise exception
         else
           twirp_result
