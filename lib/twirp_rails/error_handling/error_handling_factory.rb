@@ -33,7 +33,7 @@ module TwirpRails
 
       def raise_on_error(twirp_result)
         if twirp_result.error
-          exception = translator_class.twirp_to_exception(twirp_result.error)
+          exception = translator_class.twirp_to_exception(twirp_result.error, client)
           raise exception
         else
           twirp_result
@@ -45,15 +45,15 @@ module TwirpRails
         if method =~ /!$/
           # when we call a bang version of client method - raise exception translated from error
           method = method[0..-2]
-          raise_on_error client.public_send(method, args)
+          raise_on_error client.public_send(method, *args)
         else
-          client.public_send method, args
+          client.public_send method, *args
         end
       end
       # rubocop:enable Style/MethodMissingSuper
 
       def respond_to_missing?(method, include_all = false)
-        handler.respond_to?(method, include_all)
+        client.respond_to?(method, include_all)
       end
     end
 
