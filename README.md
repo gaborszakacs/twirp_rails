@@ -46,7 +46,7 @@ message GetNameResponse {
 and run
 
 ```sh
-rails g twirp people
+rails g twirp people --gen-swagger
 rails g twirp:rspec # run only once, if you want to use rspec rpc helper
 ```
 
@@ -207,8 +207,7 @@ inflection by set to false `add_api_acronym` configuration option.
 
 ## Swagger generation
 
-Service generator `rails g twirp service` generates swagger file in `public/swagger` 
-by default. You can turn it off or customize path in configuration.
+Service generator `rails g twirp service --gen-swagger` generates swagger file in `public/swagger`. You can turn it off or customize path in configuration.
 
 ## Smart service detection 
 
