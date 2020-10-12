@@ -32,7 +32,9 @@ module TwirpRails
 
       class_eval(<<~RUBY, __FILE__, __LINE__ + 1)
         def #{symbol}
-          @#{symbol} ||= #{symbol}_default
+          return #{symbol}_default if @#{symbol}.nil?
+
+          @#{symbol}
         end
       RUBY
 
